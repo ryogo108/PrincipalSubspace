@@ -4,6 +4,7 @@
 #include <map>
 #include <gmpxx.h>
 #include <list>
+#include <algorithm>
 #include "split.h"
 
 using std::cout;    using std::endl;
@@ -18,7 +19,14 @@ using H = int;
 using monomial = pair<list<H>, Q>;
 using L = map<monomial, QQ>;
 
-vector<int> stoi(const vector<string>& strs);
+vector<int> stoi(const vector<string>& strs)
+{
+  vector<int> ret;
+  transform(strs.begin(), strs.end(), back_inserter(ret),
+            [](string s){return stoi(s);});
+  return ret;
+}
+
 ostream& operator << (ostream& os, const list<H>& l) 
 {
   os << "[";
