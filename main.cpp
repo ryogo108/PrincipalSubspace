@@ -7,11 +7,12 @@
 #include <algorithm>
 #include "split.h"
 
-using std::cout;    using std::endl;
-using std::cin;     using std::list;
-using std::map;     using std::string;
-using std::stoi;    using std::vector;
-using std::pair;    using std::ostream;
+using std::cout;      using std::endl;
+using std::cin;       using std::list;
+using std::map;       using std::string;
+using std::stoi;      using std::vector;
+using std::pair;      using std::ostream;
+using std::to_string;
 
 using QQ = mpq_class;
 using Q = int;
@@ -57,7 +58,18 @@ ostream& operator << (ostream& os, const L& v)
   return os << "]";
 }
 
-string Xs_str(const vector<int>& in, string v);
+string Xs_str(const vector<int>& in, string v)
+{
+  if(in.empty()) return v;
+  string ret = "[";
+  for(vector<int>::const_iterator iter = in.begin();
+    iter != in.end(); ++iter) {
+    if(iter != in.begin()) ret += ", ";
+    ret += "(" + to_string(*iter) + ", 1)";
+  }
+  return ret + "] * " + v;
+}
+
 L Xs(const vector<int>& in, const L& v);
 
 int main()
