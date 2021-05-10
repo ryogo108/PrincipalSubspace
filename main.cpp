@@ -40,4 +40,5 @@ int main()
     cout << Xs_str(in, "v") << "=" << endl
          << result << endl;
   }
+  return 0;
 }
