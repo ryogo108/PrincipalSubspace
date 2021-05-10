@@ -19,10 +19,35 @@ using monomial = pair<list<H>, Q>;
 using L = map<monomial, QQ>;
 
 vector<int> stoi(const vector<string>& strs);
-ostream& operator << (ostream& os, const H& x);
-ostream& operator << (ostream& os, const list<H>& l);
-ostream& operator << (ostream& os, const monomial& m);
-ostream& operator << (ostream& os, const L& v);
+ostream& operator << (ostream& os, const list<H>& l) 
+{
+  os << "[";
+  for(list<H>::const_iterator iter = l.begin();
+    iter != l.end(); ++iter) {
+    if(iter != l.begin()) os << ", ";
+    os << (*iter);
+  }
+  return os << "]";
+}
+
+ostream& operator << (ostream& os, const monomial& m)
+{
+  return os << "[" << m.first << ", " << m.second << "]";
+}
+
+ostream& operator << (ostream& os, const L& v)
+{
+  os << "[";
+  for(L::const_iterator iter = v.begin();
+    iter != v.end(); ++iter) {
+    if(iter != v.begin()) os << ", ";
+    os << "["
+       << iter -> first << ", "
+       << iter -> second
+       << "]";
+  }
+  return os << "]";
+}
 
 string Xs_str(const vector<int>& in, string v);
 L Xs(const vector<int>& in, const L& v);
