@@ -58,6 +58,8 @@ ostream& operator << (ostream& os, const L& v)
   return os << "]";
 }
 
+L X(int k, const L& v);
+
 string Xs_str(const vector<int>& in, string v)
 {
   if(in.empty()) return v;
@@ -70,7 +72,15 @@ string Xs_str(const vector<int>& in, string v)
   return ret + "] * " + v;
 }
 
-L Xs(const vector<int>& in, const L& v);
+L Xs(const vector<int>& in, const L& v)
+{
+  L ret = v;
+  for(vector<int>::const_reverse_iterator iter = in.rbegin();
+    iter != in.rend(); ++iter) {
+    ret = X(*iter, ret);
+  }
+  return ret;
+}
 
 int main()
 {
