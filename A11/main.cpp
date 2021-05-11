@@ -58,7 +58,17 @@ ostream& operator << (ostream& os, const L& v)
   return os << "]";
 }
 
-L& omit(L& v);
+L& omit(L& v)
+{
+  for(L::const_iterator iter = v.begin();
+    iter != v.end();) {
+    if(iter -> second == 0)
+      iter = v.erase(iter);
+    else
+      ++iter;
+  }
+  return v;
+}
 
 L& add(L& v, const L& vr)
 {
