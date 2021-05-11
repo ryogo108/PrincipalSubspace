@@ -6,6 +6,8 @@
 #include <list>
 #include <algorithm>
 #include "split.h"
+#include "partition.h"
+#include "calc_z.h"
 
 using std::cout;      using std::endl;
 using std::cin;       using std::list;
@@ -13,6 +15,7 @@ using std::map;       using std::string;
 using std::stoi;      using std::vector;
 using std::pair;      using std::ostream;
 using std::to_string; using std::max;
+using partition::Par; using partition::generate;
 
 using QQ = mpq_class;
 using Q = int;
@@ -85,7 +88,39 @@ L& add(L& v, const L& vr)
   return omit(ret);
 }
 
-L E_minus(int k, const L& v);
+L append(const Par& p, const pair<monomial, QQ>& v);
+
+L operator * (const QQ& a, const L& v);
+
+// Calculate the action of E_minus of degree k on a given monomial.
+L E_minus(int k, const pair<monomial, QQ>& v)
+{
+  if(k < 0) return L();
+  L ret;
+  vector<Par> pars;
+  // Generate all partitions of the given integer k.
+  generate(k, pars);
+  for(vector<Par>::const_iterator it = pars.begin();
+    it != pars.end(); ++it) {
+    ret = add(ret,
+              (QQ(1) / QQ(z(*it))) *
+              (append(*it, v))
+             );
+  }
+  return omit(ret);
+}
+
+L E_minus(int k, const L& v)
+{
+  if(k < 0) return L();
+  L ret;
+  // Calculate the action of E_minus of degree k on each monomial in v.
+  for(L::const_iterator iter = v.begin();
+    iter != v.end(); ++iter)
+    ret = add(ret, E_minus(k, *iter));
+  return omit(ret);
+}
+
 L E_plus(int k, const L& v);
 
 // todo : Try L -> L& for return value type
