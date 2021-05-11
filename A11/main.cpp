@@ -100,7 +100,7 @@ L append(const H& x, const L& v)
 {
   L ret;
   for(L::const_iterator iter = v.begin();
-    iter != v.begin(); ++iter) {
+    iter != v.end(); ++iter) {
     const monomial& m = iter -> first;
     ret.insert(
       make_pair(
