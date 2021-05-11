@@ -63,7 +63,21 @@ L& add(L& v, const L& vl);
 L E_minus(int k, const L& v);
 L E_plus(int k, const L& v);
 
-L& e(L& v);
+// todo : Try L -> L& for return value type
+//        and const L& -> L& for argument value type for acceleration.
+L e(const L& v)
+{
+  L ret;
+  for(L::const_iterator iter = v.begin();
+    iter != v.end(); ++iter) {
+    L::key_type target = iter -> first;
+    // Act e ^ \alpha on target monomial.
+    target.second = target.second + 1;
+    ret[target] = iter -> second;
+  }
+  return ret;
+}
+
 int max(const L& v);
 
 L X(int k, const L& v)
