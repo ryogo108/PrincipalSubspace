@@ -85,12 +85,11 @@ L X(int k, const L& v)
     // Act e ^ \alpha on the target vector.
     target = e(target);
     // Act the degree def coefficient of E_\minus * E_\plus on target vector.
-    // Remark : Althogh E_\plus has infinite operators which acts on target vector,
-    //          all but finitely many operators acts as zero on target vector,
-    //          in particular there is some integer N ( = max(target)) such that
-    //          all operators acts as zero on target vector if its degree is greater
+    // Remark : There is some integer N ( = max(target)) such that
+    //          an operator in E_\plus acts as zero on target vector if its degree is greater
     //          than N.
-    for(int i = 0; i <= max(target); i++) {
+    const int N = max(target);
+    for(int i = 0; i <= N; i++) {
       ret = add(ret, E_minus(deg + i, E_plus(-i, target)));
     }
   }
