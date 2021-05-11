@@ -160,7 +160,35 @@ L E_minus(int k, const L& v)
   return omit(ret);
 }
 
-L E_plus(int k, const L& v);
+L d(const Par& p, const pair<monomial, QQ>& v);
+
+L E_plus(int k, const pair<monomial, QQ>& v)
+{
+  if(k > 0) return L();
+  L ret;
+  vector<Par> pars;
+  generate(-k, pars);
+  for(vector<Par>::const_iterator it = pars.begin();
+    it != pars.end(); ++it) {
+    ret = add(ret,
+              QQ(partition::l(*it) % 2 == 0 ? 1 : -1) *
+              (QQ(1) / QQ(z(*it))) *
+              (d(*it, v))
+             );
+  }
+  return omit(ret);
+}
+
+L E_plus(int k, const L& v)
+{
+  if(k > 0) return L();
+  L ret;
+  // Calculate the action of E_plus of degree k on each monomial in v.
+  for(L::const_iterator iter = v.begin();
+    iter != v.end(); ++iter)
+    ret = add(ret, E_plus(k, *iter));
+  return omit(ret);
+}
 
 // todo : Try L -> L& for return value type
 //        and const L& -> L& for argument value type for acceleration.
