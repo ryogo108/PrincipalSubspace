@@ -303,7 +303,7 @@ string Xs_str(const vector<int>& in, string v)
   for(vector<int>::const_iterator iter = in.begin();
     iter != in.end(); ++iter) {
     if(iter != in.begin()) ret += ", ";
-    ret += "(" + to_string(*iter) + ", 1)";
+    ret += to_string(*iter);
   }
   return ret + "] * " + v;
 }
