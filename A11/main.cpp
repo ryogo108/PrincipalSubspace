@@ -16,6 +16,7 @@ using std::stoi;      using std::vector;
 using std::pair;      using std::ostream;
 using std::to_string; using std::max;
 using partition::Par; using partition::generate;
+using std::count;
 
 using QQ = mpq_class;
 using Q = int;
@@ -160,7 +161,43 @@ L E_minus(int k, const L& v)
   return omit(ret);
 }
 
-L d(const Par& p, const pair<monomial, QQ>& v);
+L d(const H& x, const pair<monomial, QQ>& v)
+{
+  L ret;
+  const monomial& m = v.first;
+  list<H> l = m.first;
+  list<H>::iterator it = find(l.begin(), l.end(), H(-int(x)));
+  if(it == l.end())
+    // The derivation x acts as zero on v.
+    return L();
+  // Count multiplicity of -x in the given monomial m.
+  const unsigned int mul = count(l.begin(), l.end(), H(-int(x)));
+  // Calculate the derivation x on v.
+  l.erase(it);
+  ret[monomial(l, m.second)] = v.second * 2 * mul * int(x);
+  return ret;
+}
+
+L d(const H& x, const L& v)
+{
+  L ret;
+  for(L::const_iterator iter = v.begin();
+    iter != v.end(); ++iter) {
+    ret = add(ret, d(x, *iter));
+  }
+  return omit(ret);
+}
+
+L d(const Par& p, const pair<monomial, QQ>& v)
+{
+  L ret;
+  ret.insert(v);
+  for(Par::const_iterator it = p.begin();
+    it != p.end(); ++it) {
+    ret = d(H(*it), ret);
+  }
+  return omit(ret);
+}
 
 L E_plus(int k, const pair<monomial, QQ>& v)
 {
