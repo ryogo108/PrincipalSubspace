@@ -78,7 +78,19 @@ L e(const L& v)
   return ret;
 }
 
-int sum(const monomial& m);
+// Calculate the following non negative integer N of a given monomial
+// such as N = n_1 + n_2 - ... + n_l w.r.t a monomial of shape
+// [-n_1, -n_2, ..., -n_l] \tensor e ^ m \alpha for some integer m.
+int sum(const monomial& m)
+{
+  int ret = 0;
+  list<H> l = m.first;
+  for(list<H>::const_iterator iter = l.begin();
+    iter != l.end(); ++iter) {
+    ret += -(*iter);
+  }
+  return ret;
+}
 
 int max(const L& v)
 {
