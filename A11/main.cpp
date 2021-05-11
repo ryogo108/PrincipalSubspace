@@ -12,7 +12,7 @@ using std::cin;       using std::list;
 using std::map;       using std::string;
 using std::stoi;      using std::vector;
 using std::pair;      using std::ostream;
-using std::to_string;
+using std::to_string; using std::max;
 
 using QQ = mpq_class;
 using Q = int;
@@ -78,7 +78,17 @@ L e(const L& v)
   return ret;
 }
 
-int max(const L& v);
+int sum(const monomial& m);
+
+int max(const L& v)
+{
+  int ret = 0;
+  for(L::const_iterator iter = v.begin();
+    iter != v.end(); ++iter) {
+    ret = max(ret, sum(iter -> first));
+  }
+  return ret;
+}
 
 L X(int k, const L& v)
 {
