@@ -88,7 +88,39 @@ L& add(L& v, const L& vr)
   return omit(ret);
 }
 
-L append(const Par& p, const pair<monomial, QQ>& v);
+list<H> append(const H& x, list<H> l)
+{
+  l.push_front(x);
+  l.sort();
+  return l;
+}
+
+L append(const H& x, const L& v)
+{
+  L ret;
+  for(L::const_iterator iter = v.begin();
+    iter != v.begin(); ++iter) {
+    const monomial& m = iter -> first;
+    ret.insert(
+      make_pair(
+        monomial(append(x, m.first), m.second),   // monomial part
+        iter -> second                            // scalar part
+      )
+    );
+  }
+  return ret;
+}
+
+L append(const Par& p, const pair<monomial, QQ>& v)
+{
+  L ret;
+  ret.insert(v);
+  for(Par::const_iterator it = p.begin();
+    it != p.end(); ++it) {
+    ret = append(H(-(*it)), ret);
+  }
+  return ret;
+}
 
 L operator * (const QQ& a, const L& v);
 
