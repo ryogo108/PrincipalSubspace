@@ -63,7 +63,7 @@ L& add(L& v, const L& vl);
 L E_minus(int k, const L& v);
 L E_plus(int k, const L& v);
 
-L e(const L& v);
+L& e(L& v);
 int max(const L& v);
 
 L X(int k, const L& v)
