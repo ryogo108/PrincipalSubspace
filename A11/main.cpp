@@ -58,7 +58,44 @@ ostream& operator << (ostream& os, const L& v)
   return os << "]";
 }
 
-L X(int k, const L& v);
+L& add(L& v, const L& vl);
+
+L E_minus(int k, const L& v);
+L E_plus(int k, const L& v);
+
+L e(const L& v);
+int max(const L& v);
+
+L X(int k, const L& v)
+{
+  L ret;
+  // Calculate action of the coefficient of degree -k - 1 of X on each monomial in v.
+  // Note that X is the generating function in indeterminate \zeta
+  // which consists of E_\minus(\zeta) * E_\plus(\zeta) * e ^ \alpha * \zeta ^ \alpha.
+  for(L::const_iterator iter = v.begin();
+    iter != v.end(); ++iter) {
+    const monomial& m = iter -> first;
+    L target;
+    target.insert(*iter);
+    // Calculate the degree of which we take the coefficient in the generating function
+    // of operators E ^ \minus * E ^ \plus.
+    // Remark : This degree depends on second part of target monomial, which means a element
+    //          e ^ n \alpha (for some integer n) of the group algebra CC[Q].
+    int deg = -k - 1 - 2 * m.second;
+    // Act e ^ \alpha on the target vector.
+    target = e(target);
+    // Act the degree def coefficient of E_\minus * E_\plus on target vector.
+    // Remark : Althogh E_\plus has infinite operators which acts on target vector,
+    //          all but finitely many operators acts as zero on target vector,
+    //          in particular there is some integer N ( = max(target)) such that
+    //          all operators acts as zero on target vector if its degree is greater
+    //          than N.
+    for(int i = 0; i <= max(target); i++) {
+      ret = add(ret, E_minus(deg + i, E_plus(-i, target)));
+    }
+  }
+  return ret;
+}
 
 string Xs_str(const vector<int>& in, string v)
 {
