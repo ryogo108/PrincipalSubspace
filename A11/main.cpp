@@ -58,7 +58,22 @@ ostream& operator << (ostream& os, const L& v)
   return os << "]";
 }
 
-L& add(L& v, const L& vl);
+L& omit(L& v);
+
+L& add(L& v, const L& vr)
+{
+  L& ret = v;
+  for(L::const_iterator iter = vr.begin();
+    iter != vr.end(); ++iter) {
+    L::iterator it = ret.find(iter -> first);
+    if(it != ret.end()) {
+      it -> second += iter -> second;
+    }
+    else
+      ret.insert(*iter);
+  }
+  return omit(ret);
+}
 
 L E_minus(int k, const L& v);
 L E_plus(int k, const L& v);
