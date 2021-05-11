@@ -122,7 +122,14 @@ L append(const Par& p, const pair<monomial, QQ>& v)
   return ret;
 }
 
-L operator * (const QQ& a, const L& v);
+L operator * (const QQ& a, const L& v)
+{
+  L ret = v;
+  for(L::iterator iter = ret.begin();
+    iter != ret.end(); ++iter)
+    iter -> second *= a;
+  return ret;
+}
 
 // Calculate the action of E_minus of degree k on a given monomial.
 L E_minus(int k, const pair<monomial, QQ>& v)
